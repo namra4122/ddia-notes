@@ -1,40 +1,47 @@
-- In this chapter we will see what are data models, what are different types of models are used to design application, pros and cons of each models, etc.
-- The term **_DATA MODEL_** refers to the way data is organized, documented and defined within a database.
-- Most application are built by different layers. Each layer is a different data model. For each layer, the key question is: how is it represented in terms of the next-lower layer?
+# Chapter 2
+
+- In this chapter, we will see what data models are, what different types of models are used to design applications, the pros and cons of each model, etc.
+- The term **_DATA MODEL_** refers to the way data is organized, documented, and defined within a database.
+- Most applications are built by different layers. Each layer is a different data model. For each layer, the key question is: how is it represented in terms of the next-lower layer?
 - For example:
-  1.  Application developer looks real worlds and models it in terms of objects or data structure, and APIs that manipulate those data structure. -> Most developer are on this layer (said by Sunny not me)
-  2.  Expressing the data structure in terms of a general-purpose data models, such as JSON or XML documents, tables in relation db or different models
-  3.  Gigachads who build your database software decided on a way of representing that JSON/XML/relation/graph in terms of bytes in memory,disk or on network. Iski help se we can query,search, manupilate and process data in various ways
-  4.  Now, more Alpha gigachads are hardware engineers who has figured out how to represent bytes in terms of electrical currents, pulses of light, and more.
-- Different types of data models in book:
-  1.  Relational models : organizes data into tables (relations) consisting of rows (tuples) and columns (attributes), enabling structured storage and efficient retrieval
-  2.  Document models : stores data as flexible, self-describing documents—typically in formats like JSON or XML—allowing for dynamic schemas and hierarchical structures
-  3.  Graph-like models : structures data as nodes (entities) and edges (relationships), allowing for efficient representation and querying of interconnected information.
-- **Relation V/S Document model:**
-  - Relation model was proposed by Edgar Codd in 1970. Many people doubted whether it could be implemented efficiently. But, in mid 1980 SQL become tool of choice for most people.
-  - In upcoming many years many different models came like network model and hierarchical model in 1970s and early 1980s, Object databases in late 1980s and early 1990s, XML database in early 2000s.
-  - Each competitor to the relation model generated a lot of hype in its time, but it never lasted (because SQL is Kratos of Databases 💪🏻)
+  1. Application developers look at the real world and model it in terms of objects or data structures and APIs that manipulate those data structures. -> Most developers are on this layer (said by Sunny, not me)
+  2. Expressing the data structure in terms of general-purpose data models, such as JSON or XML documents, tables in a relational database, or different models
+  3. Gigachads who build your database software decide on a way of representing that JSON/XML/relation/graph in terms of bytes in memory, disk, or on the network. This helps us query,search, manipulate, and process data in various ways
+  4. Now, more alpha gigachads are hardware engineers who have figured out how to represent bytes in terms of electrical currents, pulses of light, and more.
+- Different types of data models in the book:
+  1. Relational models : organize data into tables (relations) consisting of rows (tuples) and columns (attributes), enabling structured storage and efficient retrieval
+  2. Document models : store data as flexible, self-describing documents—typically in formats like JSON or XML—allowing for dynamic schemas and hierarchical structures
+  3. Graph-like models : structure data as nodes (entities) and edges (relationships), allowing for efficient representation and querying of interconnected information.
+- #### **Relation V/S Document model**:
+
+  - The relational model was proposed by Edgar Codd in 1970. Many people doubted whether it could be implemented efficiently. But, in the mid-1980s, SQL became the tool of choice for most people.
+  - In upcoming many years, many different models came like network model and hierarchical model in 1970s and early 1980s, Object databases in late 1980s and early 1990s, XML database in early 2000s.
+  - Each competitor to the relation model generated a lot of hype in its time, but it never lasted (because SQL is the Kratos of Databases 💪🏻)
   - **_Birth of NoSQL_**
-    - In 2010s a Twitter hashtag #NoSQL was trending for a meetup on open-source, distributed, nonrelational database. (it has been retroactively reinterpreted as *Not Only SQL*)
+    - In 2010s, a Twitter hashtag #NoSQL was trending for a meetup on open-source, distributed, nonrelational database. (it has been retroactively reinterpreted as *Not Only SQL*)
     - _This was how the NoSQL database was born._
     - NoSQL was having its own pros:
-      1.  Greater and easily scalable.
-      2.  Specialized query operations that are not supported by relation models
-      3.  Desire for more dynamic & expressive data model
+      1. Greater and easily scalable.
+      2. Specialized query operations that are not supported by relation models
+      3. Desire for more dynamic & expressive data model
   - Polygot Persistence: Using nonrelational datastore within relational databases
   - **_Object-Relation Mismatch_**
-    - The application we are developing uses object to store data of user, where as in DB we store in relational tables.
-    - So, to avoid this impedance mismatch(disconnect between models) a translation layer is required.
+
+    - The application we are developing uses objects to store data of users, whereas in DB we store in relational tables.
+    - So, to avoid this impedance mismatch(disconnect between models), a translation layer is required.
     - ORMs (Object-relational mapping) frameworks reduce the amount of boilerplate code required for this translation layer.
-    - Today's ORMs are so advance that they can perform the same task across different data models (ORMs examples: Java[Hibernate], JS[Prisma], Python[SQLAlchemy], GO[GORM])
-    - For Example let's see how to store resume:
+    - Today's ORMs are so advanced that they can perform the same task across different data models (ORMs examples: Java[Hibernate], JS[Prisma], Python[SQLAlchemy], GO[GORM])
+    - For example, let's see how to store a resume:
+
       - Relational: ![Relation Ways to store resume](imgs/relational_resume.png)
-        - Here each profile has its unique identifier, `user_id`. Fields like `first_name` and `last_name` apper exactly once per user, so they have a seprate columns on the user table.
-        - But, most people have more than one job, people may have varying number of periods of education and many more details can be more than one.
+
+        - Here each profile has its unique identifier, `user_id`. Fields like `first_name` and `last_name` appear exactly once per user, so they have separate columns on the user table.
+        - But, most people have more than one job, people may have varying numbers of periods of education, and many more details can be more than one.
         - Thus, one-to-many relationship from user to these items. These can be represented as:
-          1.  (Prior to SQL:1999) Most common ways is normalization. Put positions, education and contact information in separate tables, with a foreign key referencing to `users` table.
-          2.  Newer SQL standards support structured types, XML, and JSON for multi-valued data storage, with querying/indexing in databases like Oracle, DB2, SQL Server, MySQL, and PostgreSQL.
-          3.  Third option to encode jobs, education and contact info as a JSON or XML. Store then in text in db, and let application interpret its structure and content. (In this you typically cannot use the database to query for values inside that encoded column.)
+          1. (Prior to SQL:1999) The most common way is normalization. Put positions, education, and contact information in separate tables, with a foreign key referencing the `users` table.
+          2. Newer SQL standards support structured types, XML, and JSON for multi-valued data storage, with querying/indexing in databases like Oracle, DB2, SQL Server, MySQL, and PostgreSQL.
+          3. The third option is to encode jobs, education, and contact info as a JSON or XML. Store them in text in the db, and let the application interpret their structure and content. (In this, you typically cannot use the database to query for values inside that encoded column.)
+
       - Document:
         ```json
         {
@@ -67,6 +74,7 @@
         }
         ```
         - JSON representation offers better locality than a multi-table schema, needing just one query instead of multiple queries or complex joins.
+
   - **_Many-to-One and Many-to-Many Relationships_**
     - As we see in above example `region_id` and `industry_id` are given as Ids, not as plain-text. Because this help in:
       1. Consistenct style and spelling across profile
@@ -102,7 +110,8 @@
       - Those choices are effectively the “access path,” but made automatically by the query optimizer, not by the developer.
       - If you want to query your data in new ways, declare a new index, and queries will automatically use whichever indexes are most appropriate.
       - This made relational model much easier to add new features to application.
-- **Relation V/S Document Databases Today:**
+
+- #### **Relation V/S Document Databases Today**:
 
   - Main argument in favour of document data model are schema flexibility, better performance due to locality.
   - In Favour of relation data model are providing bettwe support for joins, and many-to-many relationships.
@@ -177,7 +186,7 @@
       - MongoDB drivers offer client-side reference resolution, though less efficient than server-side joins.
     - Advantages of Hybrid Models: Combining document and relational features allows applications to choose the best fit for their needs, with a future trend towards hybrid database models.
 
-- **Query Language for Data:**
+- ### **Query Language for Data**:
 
   - To query relational database we use _declarative queries_, whereas for CODASYL and document databases we use _imperative queries_.
   - What are _declarative_ and _imperative_ queries:
@@ -331,7 +340,7 @@
         ]);
         ```
 
-- **Graph-Like Data Models:**
+- ### **Graph-Like Data Models**:
 
   - When your data has more one-to-many relationships or no relationships your goto data model should be _Document model_.
   - But if your data mas too many many-to-many relationships than usual then using relation data model will be alot more complex, then it beomes more natural to start using **Graph Data Models**.

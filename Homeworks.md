@@ -1,4 +1,4 @@
-# Homeworks:
+# Homeworks
 
 - Chapter 1:
   - **_5/02/2025 &rarr;_** Read well about means, medians, percentiles.
@@ -12,3 +12,4 @@
   - **_07/03/2025 &rarr;_** R-trees and how they can help solve for multi-indexed queries.
   - **_10/03/2025 &rarr;_** Explore what are Automatons & Tries and how they allow searching in fuzzy text.
   - **_11/03/2025 &rarr;_** Read about Google Dremel.
+  - **_17/03/2025 &rarr;_** Read how modern CPU works, Understand what is branch prediction.
